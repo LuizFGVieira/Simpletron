@@ -282,22 +282,25 @@ int halt(){
 int dump(){
 	int j;
 	//PRINTANDO REGISTRADORES E ARRAY DE MEMÓRIA
-	printf("\n\nREGISTRADORES:");
+	printf("\n\n REGISTRADORES:");
 	printf("\n\n Acumulador: %.4i", acumulador);
 	printf("\n Contador de Instrução: %.4i", icount);
 	printf("\n Registrador de Instrução: %.4i", iregister);
 	printf("\n Código de Operação: %.4i", opcode);
 	printf("\n Operando: %.4i\n\n", operando);
-	printf("MEMÓRIA:\n\n");
-	for(j = -9;j < 100; j++){
-		if(j >= -9 && j <= 0){
-			printf("    %d",j+9);
-		}if(j%10 == 0){
-			printf("%d %d", j);
+	printf(" MEMÓRIA:\n\n");
+	printf("   ");
+	for(j = -10;j < 100; j++){
+		if(j >= -10 && j < 0){
+			printf("       %d",j+10);
+		}else if(j%10 == 0){
+			printf("\n %.2d", j);
+			if(mem[j]>=0){printf("   +%.4i",mem[j]);}
+			else{printf("   %.4i",mem[j]);}
 		}
 		else{
-			if(mem[j]>=0){printf(" +%.4i  ",mem[j]);}
-			else{printf(" %.4i  ",mem[j]);}
+			if(mem[j]>=0){printf("   +%.4i",mem[j]);}
+			else{printf("   %.4i",mem[j]);}
 		}				
 		
 	}
