@@ -3,35 +3,49 @@
 #include <locale.h>
 
 //OPERAÇÕES DE ENTRADA E SAÍDA
-#define READ 10
-#define WRITE 11
+#define READ 10 // Lê um valor e o guarda no local da memória indicado
+#define WRITE 11 // Escreve o valor do local da memória incado na tela
 
 // OPERAÇÕES DE CARREGAMENTO/ARMAZENAMENTO
-#define LOAD 20
-#define STORE 21
+#define LOAD 20 // Carrega um valor da memória para o acumulador
+#define STORE 21 // Armazena o valor do acumulador em um local da memória
 
 //OPERAÇÕES ARITIMÉTICAS
-#define ADD 30
-#define SUBTRACT 31
-#define DIVIDE 32
-#define MULTIPLY 33
-#define MODULO 34
+#define ADD 30 // Soma um valor da memória ao acumulador e guarda o resultado no acumulador
+#define SUBTRACT 31 // Subtrai um valor da memória ao acumulador e guarda o resultado no acumulador
+#define DIVIDE 32 // Divide um valor da memória com o acumulador e guarda o resultado no acumulador
+#define MULTIPLY 33 // Multiplica um valor da memória ao acumulador e guarda o resultado no acumulador
+#define MODULO 34 // Realiza o módulo de um valor da memória e armazena no acumulador
+#define POTENCIA 35 // Realiza a potência do acumulador tendo um valor da memória como expoente, armazena o resultado no acumulador
  
 //OPERAÇÕES DE TRANSFERÊNCIA DE CONTROLE
-#define BRANCH 40
-#define BRANCHNEG 41
-#define BRANCHZERO 42
-#define HALT 43
-
-//OPERAÇÕES ESPECIAIS
-#define DUMP 55
+#define BRANCH 40 // Indica um local da memória para continuar a execução do programa
+#define BRANCHNEG 41 // Se o acumulador for negativo indica um local da memória para continuar a execução do programa
+#define BRANCHZERO 42 // Se o acumulador for zero indica um local da memória para continuar a execução do programa
+#define HALT 43 // Termina a execução do programa e exibe o DUMP
 
 //SENTINELA DE PARADA
-#define SENTINEL -9999
+#define SENTINEL -9999 // Encerra a escrita do programa
 
-/******* Área dos protótipos ******
-void read(void);
-void write(int N1, int N2);
+/******* Área dos protótipos ******/
+int main(void);
+int executar(void);
+int dump(void);
+int errormsg(int code);
+int read(void);
+int write(void);
+int load(void);
+int store(void);
+int add(void);
+int subtract(void);
+int divide(void);
+int multiply(void);
+int modulo(void);
+int potencia(void);
+int brach(void);
+int branchneg(void);
+int branchzero(void);
+int halt(void);
 /******* fim dos protótipos *******/
 
 int mem[1000]; //ARRAY DE MEMÓRIA
@@ -46,11 +60,12 @@ int main(void){
 	//TEXTO DE INICIALIZAÇÃO
 	setlocale(LC_ALL, "Portuguese");
 	printf("__________________ Bem vindo ao Simpletron!___________________\n");
+	
 	printf("========= Favor digitar seu programa, uma instrução  =========\n");
 	printf("========= (ou palavra de dados) por vez. Mostrarei   =========\n");
 	printf("========= o número do local e uma interrogação (?).  =========\n");
 	printf("========= Você, então, deverá digitar a palavra para =========\n");
-	printf("========= esse local. Digite a sentinela -99999 para =========\n");
+	printf("========= esse local. Digite a sentinela -9999 para  =========\n");
 	printf("========= encerrar a entrada do seu programa.        =========\n");
 	printf("______________________________________________________________\n\n");
 	
@@ -69,9 +84,6 @@ int main(void){
 		if(iregister != SENTINEL){
 			
 			if(iregister == 0 || iregister >= 10000 || iregister <= -10000 || iregister != aux){
-			
-			/*|| (opcode != WRITE && opcode != READ && opcode != LOAD && opcode != STORE && opcode != ADD && opcode != SUBTRACT 
-			&& opcode != MULTIPLY && opcode != DIVIDE && opcode != BRANCH && opcode != BRANCHNEG && opcode != BRANCHZERO)){*/
 				
 				errormsg(10);//MENSAGEM DE ERRO
 				fflush(stdin);//LIMPANDO BUFFER
@@ -103,10 +115,10 @@ int executar(){
 	printf("\n\n*** Iniciando execução do programa ***\n");
 	
 	//LOOP PARA PERCORRER INSTRUÇÕES NO ARRAY DE MEMÓRIA
-	for(icount = 0;icount < 100; icount++){
+	for(icount = 0;icount < 1000; icount++){
 		
 		//VERIFICANDO SE EXISTE INSTRUÇÃO NESTE ESPAÇO DE MEMÓRIA
-		if(mem[icount] != 0 && mem[icount] != SENTINEL && mem[icount] != HALT && mem[icount] != DUMP){
+		if(mem[icount] != 0 && mem[icount] != SENTINEL && mem[icount] != HALT){
 			
 			opcode = mem[icount]/100; //EXTRAINDO CODIGO DA OPERAÇÃO
 			operando = mem[icount]%100; //EXTRAINDO OPERANDO
@@ -114,64 +126,38 @@ int executar(){
 			//INTERPRETANDO OPERAÇÃO E EXECUTANDO A RESPECTIVA FUNÇÃO
 			switch(opcode){
 				
-				case READ:
-					read();
-					break;
-					
-				case WRITE:
-					write();
-					break;
-					
-				case LOAD:
-					load();
-					break;
-					
-				case STORE:
-					store();
-					break;
-					
-				case ADD:
-					add();
-					break;
-					
-				case SUBTRACT:
-					subtract();
-					break;
+				case READ: read(); break;
 				
-				case MULTIPLY:
-					multiply();
-					break;
+				case WRITE: write(); break;
 				
-				case DIVIDE:
-					divide();
-					break;
+				case LOAD: load(); break;
 				
-				case BRANCH:
-					branch();
-					break;
+				case STORE: store(); break;
+				
+				case ADD: add(); break;
+				
+				case SUBTRACT: subtract(); break;
+				
+				case MULTIPLY: multiply(); break;
+				
+				case DIVIDE: divide(); break;
+				
+				case BRANCH: branch(); break;
 					
-				case BRANCHNEG:
-					branchneg();
-					break;
+				case BRANCHNEG: branchneg(); break;
 					
-				case BRANCHZERO:
-					branchzero();
-					break;
+				case BRANCHZERO: branchzero(); break;
 					
-				case MODULO:
-					modulo();
-					break;
+				case MODULO: modulo(); break;
+				
+				case POTENCIA: potencia(); break;
 					
 				default: //TRATAMENTO DE ERRO
 					errormsg(11);
 					break;
 			}//FECHANDO SWITCH CASE
 			
-		}else if(mem[icount] == HALT){
-			halt();
-		}else if(mem[icount] == DUMP){
-			dump();
-		}//FECHANDO IF
+		}else{halt();}//FECHANDO IF
 		
 	}//FECHANDO FOR DE EXECUÇÃO
 }
@@ -192,23 +178,23 @@ int read(void){
 	
 	return;
 }
-int write(){
+int write(void){
 	printf("\n\n:::%d", mem[operando]);
 	return 0;
 }
 
 /******************* FUNÇÕES DE ARMAZENAMENTO E CARREGAMENTO ************************/
-int load(){
+int load(void){
 	acumulador = mem[operando];
 	return 0;
 }
-int store(){
+int store(void){
 	mem[operando] = acumulador;
 	return 0;
 }
 
 /******************* FUNÇÕES ARITIMÉTICAS ************************/
-int add(){
+int add(void){
 	
 	//SOMA
 	acumulador += mem[operando];
@@ -221,7 +207,7 @@ int add(){
 	
 	return 0;
 }
-int subtract(){
+int subtract(void){
 	
 	//SUBTRAÇÃO
 	acumulador -= mem[operando];
@@ -234,7 +220,7 @@ int subtract(){
 	
 	return 0;
 }
-int multiply(){
+int multiply(void){
 	
 	//MULTIPLICAÇÃO
 	acumulador = acumulador*mem[operando];
@@ -246,7 +232,7 @@ int multiply(){
 	}
 	return 0;
 }
-int divide(){
+int divide(void){
 	
 	//DIVISÃO
 	
@@ -260,9 +246,9 @@ int divide(){
 	return 0;
 }
 
-int modulo(){
+int modulo(void){
 	
-	// MODULO
+	// MÓDULO
 	
 	if(operando >= 0){
 		acumulador = mem[operando];
@@ -271,8 +257,27 @@ int modulo(){
 	}
 }
 
+int potencia(void){
+	int i;
+	int aux = acumulador;
+	// POTÊNCIA
+	if(mem[operando] != 0){
+		for(i = 1; i < mem[operando]; i++){
+			acumulador = aux * acumulador;
+			//VERIFICANDO ESTOURO DO ACUMULADOR
+			if(acumulador > 9999 || acumulador < -9999){
+				acumulador = acumulador / aux;
+				errormsg(21);
+				break;
+			}
+		}	
+	}else{
+		acumulador = 1;
+	}	
+}
+
 /******************* FUNÇÕES DE TRANSFERÊNCIA DE CONTROLE ************************/
-int branch(){
+int branch(void){
 	icount = operando-1;
 	return 0;
 }
@@ -288,14 +293,14 @@ int branchzero(){
 	}
 	return 0;
 }
-int halt(){
+int halt(void){
 	icount = 100; //ENCERRANDO LOOP DE EXECUÇÃO DO PROGRAMA
 	printf("\n\n*** Execução do programa encerrada ***\n");
 	dump(); //PRINTANDO REGISTRADORES E ARRAY DE MEMÓRIA
 }
 
 /******************* FUNÇÕES ESPECIAIS ************************/
-int dump(){
+int dump(void){
 	int j;
 	//PRINTANDO REGISTRADORES E ARRAY DE MEMÓRIA
 	printf("\n\n REGISTRADORES:");
@@ -305,12 +310,12 @@ int dump(){
 	printf("\n Código de Operação: %.4i", opcode);
 	printf("\n Operando: %.4i\n\n", operando);
 	printf(" MEMÓRIA:\n\n");
-	printf("   ");
-	for(j = -10;j < 100; j++){
+	printf("    ");
+	for(j = -10;j < 1000; j++){
 		if(j >= -10 && j < 0){
-			printf("       %d",j+10);
+			printf("   %5d",j+10);
 		}else if(j%10 == 0){
-			printf("\n %.2d", j);
+			printf("\n %3d", j);
 			if(mem[j]>=0){printf("   +%.4i",mem[j]);}
 			else{printf("   %.4i",mem[j]);}
 		}
