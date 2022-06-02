@@ -15,6 +15,7 @@
 #define SUBTRACT 31
 #define DIVIDE 32
 #define MULTIPLY 33
+#define MODULO 34
  
 //OPERAÇÕES DE TRANSFERÊNCIA DE CONTROLE
 #define BRANCH 40
@@ -33,7 +34,7 @@ void read(void);
 void write(int N1, int N2);
 /******* fim dos protótipos *******/
 
-int mem[100]; //ARRAY DE MEMÓRIA
+int mem[1000]; //ARRAY DE MEMÓRIA
 int acumulador = 0; //ACUMULADOR
 int operando = 0; //DADO A SER OPERADO
 int opcode = 0; // CÓDIGO DA OPERAÇÃO
@@ -157,6 +158,10 @@ int executar(){
 					branchzero();
 					break;
 					
+				case MODULO:
+					modulo();
+					break;
+					
 				default: //TRATAMENTO DE ERRO
 					errormsg(11);
 					break;
@@ -253,6 +258,17 @@ int divide(){
 	}
 	
 	return 0;
+}
+
+int modulo(){
+	
+	// MODULO
+	
+	if(operando >= 0){
+		acumulador = mem[operando];
+	}else{
+		acumulador = mem[operando] * -1;
+	}
 }
 
 /******************* FUNÇÕES DE TRANSFERÊNCIA DE CONTROLE ************************/
