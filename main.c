@@ -294,7 +294,7 @@ int branchzero(){
 	return 0;
 }
 int halt(void){
-	icount = 100; //ENCERRANDO LOOP DE EXECUÇÃO DO PROGRAMA
+	icount = 1000; //ENCERRANDO LOOP DE EXECUÇÃO DO PROGRAMA
 	printf("\n\n*** Execução do programa encerrada ***\n");
 	dump(); //PRINTANDO REGISTRADORES E ARRAY DE MEMÓRIA
 }
